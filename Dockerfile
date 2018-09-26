@@ -6,11 +6,16 @@ FROM ubuntu:16.04
 # required to assume-yes for debconf
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV HOME /root
 
 RUN \
     apt-get update && \
-    apt-get install -y locales
+    apt-get install -y apt-utils locales
+
+ENV LC_ALL en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LANG en_US.UTF-8
+
+ENV HOME /root
 
 RUN \
     localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 && \
@@ -18,7 +23,7 @@ RUN \
 
 # perfSONAR
 RUN \
-    curl -fsSL http://downloads.perfsonar.net/debian/perfsonar-jessie-release.list --output /etc/apt/sources.list.d/perfsonar-jessie-release.list && \
+    curl -fsSL http://downloads.perfsonar.net/debian/perfsonar-release.list --output /etc/apt/sources.list.d/perfsonar-jessie-release.list && \
     curl -fsSL http://downloads.perfsonar.net/debian/perfsonar-debian-official.gpg.key | apt-key add - && \
     apt-get update ; apt-get install -y perfsonar-testpoint 
 
